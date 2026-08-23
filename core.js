@@ -306,7 +306,11 @@ window.TT = (function () {
       body.appendChild(p);
     }, [
       { label: 'Keep playing', primary: true },
-      { label: 'Leave', run: home }
+      /* where people abandon is as informative as where they finish */
+      { label: 'Leave', run: () => {
+        if (window.Track && current) Track.event('quit_run', { mode: current.def.id });
+        home();
+      } }
     ]);
   }
 
@@ -318,6 +322,7 @@ window.TT = (function () {
     if (sheetOpen) closeSheet();   /* never carry a sheet across screens */
     Object.keys(screens).forEach((k) => screens[k].classList.toggle('active', k === name));
     keepAwake(name === 'play');
+    if (window.Track) Track.setPlaying(name === 'play');
     if (!window.Ads) return;
     Ads.setPlaying(name === 'play');
     if (name === 'home' || name === 'result' || name === 'board') Ads.showBanner(name);
@@ -576,6 +581,14 @@ window.TT = (function () {
     show('play');
     audio(); /* unlock on the tap that started the mode */
     rng = mulberry32(match.seed);
+    if (window.Track && match.i === 0) {
+      Track.event('mode_start', {
+        mode: match.id,
+        diff: match.opts.diff || 'n/a',
+        daily: !!match.daily,
+        players: match.names.length
+      });
+    }
     paint(el.play, def);          /* the mode's colour follows it into play */
     current = { def: def, opts: match.opts };
     def.start(makeCtx(def), match.opts);
@@ -727,6 +740,16 @@ window.TT = (function () {
     lastMode = def.id;
     lastOpts = replay;
 
+    if (window.Track) {
+      Track.event('run_finish', {
+        mode: def.id,
+        diff: replay.diff || 'n/a',
+        daily: !!(match && match.daily),
+        score: r.score == null ? null : Math.round(r.score),
+        outcome: r.hero == null ? '' : String(r.hero)
+      });
+    }
+
     if (match) {
       match.opts = replay;
       match.results.push({ name: match.names[match.i], r: r });
@@ -807,6 +830,9 @@ window.TT = (function () {
   function doShare() {
     if (!shareEntry) return;
     const text = shareTextFor(shareEntry);
+    /* the share rate is the growth number — if this stays near zero,
+       the share card is not pulling its weight */
+    if (window.Track) Track.event('share_click', { day: shareEntry.day });
     /* native sheet where it exists, clipboard everywhere else */
     if (navigator.share) {
       navigator.share({ text: text }).catch(() => {});
@@ -947,6 +973,9 @@ window.TT = (function () {
     el.play.appendChild(el.flash);
 
     if (window.Ads) Ads.init({ debugSlots: false });
+    /* fill in cfBeaconToken (Cloudflare Web Analytics) and/or endpoint
+       once you've created them — inert until then */
+    if (window.Track) Track.init({ cfBeaconToken: '', endpoint: '', debug: false });
 
     /* post-match buttons are the only ad boundary: a finished match,
        a player deciding what's next, nothing being timed */

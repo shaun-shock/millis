@@ -15,6 +15,7 @@ const SHELL = [
   './style.css',
   './core.js',
   './ads.js',
+  './analytics.js',
   './modes/blindstop.js',
   './modes/interval.js',
   './modes/estimate.js',
