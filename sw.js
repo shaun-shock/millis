@@ -20,7 +20,8 @@ const SHELL = [
   './modes/estimate.js',
   './manifest.webmanifest',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './modes/imposter.js'
 ];
 
 self.addEventListener('install', (e) => {
