@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#0A0A0B">
+<title>Millis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Millis">
+<meta name="description" content="Everything is measured in milliseconds of error. A browser game of blind timing.">
+</head>
+<body>
+
+<div id="app">
+  <!-- HOME -->
+  <section class="screen" id="screen-home">
+    <header class="home-head">
+      <div class="wordmark">MILLIS</div>
+      <div class="tagline">Everything is measured in milliseconds of error.</div>
+    </header>
+
+    <!-- a playhead sweeping toward a target line: the whole game, in one loop -->
+    <div class="hero-art" aria-hidden="true">
+      <div class="art-ticks"></div>
+      <div class="art-target"></div>
+      <div class="art-sweep"></div>
+      <div class="art-label">±<span>000</span>ms</div>
+    </div>
+    <button class="party-bar" id="party-bar"></button>
+    <div class="mode-list" id="mode-list"></div>
+    <button class="daily-card" id="daily-card"></button>
+    <div class="ad-slot" id="ad-slot" style="display:none"></div>
+    <footer class="home-foot">v1 &middot; tap a mode to play</footer>
+  </section>
+
+  <!-- PLAYERS -->
+  <section class="screen" id="screen-party">
+    <div class="party-head">
+      <div class="party-title">Players</div>
+      <div class="party-note">Everyone plays the same challenge, one after another. Pass the phone along.</div>
+    </div>
+    <div class="roster" id="roster"></div>
+    <button class="btn btn-ghost" id="add-player">+ Add player</button>
+    <div class="party-actions">
+      <button class="btn btn-primary" id="party-done">Done</button>
+    </div>
+  </section>
+
+  <!-- HANDOFF -->
+  <section class="screen" id="screen-handoff">
+    <div class="handoff-wrap">
+      <div class="handoff-kicker" id="handoff-kicker">Pass the phone to</div>
+      <div class="handoff-name" id="handoff-name"></div>
+      <div class="handoff-sub" id="handoff-sub"></div>
+      <button class="btn btn-primary" id="handoff-go">I'm ready</button>
+    </div>
+  </section>
+
+  <!-- SHEET: doubles as the how-to-play card and the quit confirmation -->
+  <div class="sheet" id="sheet" hidden>
+    <div class="sheet-card">
+      <div class="sheet-title" id="sheet-title"></div>
+      <div class="sheet-body" id="sheet-body"></div>
+      <div class="sheet-actions" id="sheet-actions"></div>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <section class="screen" id="screen-board">
+    <div class="board-wrap">
+      <div class="board-title" id="board-title"></div>
+      <div class="board-unit" id="board-unit"></div>
+      <div class="board-list" id="board-list"></div>
+      <div class="result-actions">
+        <button class="btn btn-primary" id="board-again">Rematch</button>
+        <button class="btn btn-ghost" id="board-home">All modes</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAY -->
+  <section class="screen" id="screen-play">
+    <button class="quit" id="quit-btn" aria-label="Back">&#8592;</button>
+    <button class="helpbtn" id="help-btn" aria-label="How to play">?</button>
+    <div class="stage">
+      <div class="stage-prompt" id="stage-prompt"></div>
+      <div class="stage-display" id="stage-display"></div>
+      <div class="stage-sub" id="stage-sub"></div>
+      <div class="stage-extra" id="stage-extra"></div>
+    </div>
+    <div class="stage-foot" id="stage-foot"></div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen" id="screen-result">
+    <div class="result-wrap">
+      <div class="result-headline" id="result-headline"></div>
+      <div class="result-hero" id="result-hero"></div>
+      <div class="result-hero-unit" id="result-hero-unit"></div>
+      <div class="result-lines" id="result-lines"></div>
+      <div class="share-block" id="share-block">
+        <pre class="share-text" id="share-text"></pre>
+        <button class="btn btn-share" id="share-btn">Share result</button>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-primary" id="again-btn">Play again</button>
+        <button class="btn btn-ghost" id="home-btn">All modes</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="ads.js"></script>
+<script src="core.js"></script>
+<script src="modes/imposter.js"></script>
+<script src="modes/blindstop.js"></script>
+<script src="modes/interval.js"></script>
+<script src="modes/estimate.js"></script>
+<script>
+TT.boot();
+/* service worker only makes sense over http(s) — skip it on file:// */
+if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
+</script>
+</body>
+</html>
