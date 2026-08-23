@@ -1,4 +1,4 @@
-/* ============ MILLIS design tokens ============ */
+/* ============ ERROR MARGIN design tokens ============ */
 :root{
   --bg:        #0A0A0B;
   --surface:   #141417;
@@ -61,13 +61,17 @@ body{
 
 /* ============ HOME ============ */
 .home-head{ padding: 28px 4px 26px; }
+/* stacked, because ERROR MARGIN on one line at this tracking
+   overflows a phone */
 .wordmark{
-  font-family:var(--mono); font-weight:700; font-size:34px;
-  letter-spacing:.24em; color:var(--text);
+  font-family:var(--mono); font-weight:700;
+  font-size:clamp(26px, 8.4vw, 34px);
+  letter-spacing:.22em; line-height:1.1; color:var(--text);
 }
-.wordmark::after{
-  content:''; display:inline-block; width:9px; height:9px; border-radius:50%;
-  background:var(--accent); margin-left:2px; vertical-align:middle;
+.wordmark span{ display:block; }
+.wm-dot{
+  display:inline-block; width:9px; height:9px; border-radius:50%;
+  background:var(--accent); margin-left:4px; vertical-align:middle;
   animation: pulse 1.6s ease-in-out infinite;
 }
 @keyframes pulse{ 0%,100%{opacity:1; transform:scale(1)} 50%{opacity:.35; transform:scale(.82)} }

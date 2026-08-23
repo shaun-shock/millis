@@ -1,4 +1,4 @@
-# Millis
+# Error Margin
 
 A browser game where everything is measured in milliseconds of error.
 

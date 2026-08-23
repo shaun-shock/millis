@@ -1,6 +1,6 @@
 {
-  "name": "Millis",
-  "short_name": "Millis",
+  "name": "Error Margin",
+  "short_name": "Error Margin",
   "description": "Everything is measured in milliseconds of error.",
   "start_url": "./",
   "scope": "./",

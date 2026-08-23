@@ -1,5 +1,5 @@
 /* ============================================================
-   MILLIS — ad layer
+   ERROR MARGIN — ad layer
 
    One rule above all others: ad code must never execute while a
    run is in progress. Ad scripts are heavy and share the main

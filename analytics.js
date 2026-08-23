@@ -1,5 +1,5 @@
 /* ============================================================
-   MILLIS — analytics
+   ERROR MARGIN — analytics
 
    Same shape as ads.js: the game emits events through one shim,
    and the provider is swapped underneath without touching game

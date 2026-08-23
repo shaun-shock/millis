@@ -1,5 +1,9 @@
 /* ============================================================
-   MILLIS — core engine
+   ERROR MARGIN — core engine
+
+   Note: localStorage keys stay on the "millis.*" prefix from the
+   original name. They are invisible to players, and renaming them
+   would wipe every saved best, roster and daily result on upgrade.
    Screens, mode registry, timing helpers, audio, results, bests.
    Modes register themselves via TT.mode({...}) and drive the
    play screen through the ctx object handed to start().
@@ -472,7 +476,7 @@ window.TT = (function () {
 
   function shareTextFor(entry) {
     const lines = [];
-    lines.push('MILLIS #' + entry.day + ' — ' + entry.title);
+    lines.push('ERROR MARGIN #' + entry.day + ' — ' + entry.title);
     lines.push(entry.hero + ' ' + (entry.unitShort || ''));
     if (entry.marks && entry.marks.length) {
       lines.push(entry.marks.map((m) => MARK_EMOJI[m] || '⬜').join(''));

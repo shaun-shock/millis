@@ -1,5 +1,5 @@
 /* ============================================================
-   Millis service worker
+   Error Margin service worker
 
    Deliberately network-first for the app shell. A cache-first
    worker is faster but strands players on a stale build after a
@@ -7,7 +7,8 @@
    Network-first keeps everyone current and still works offline.
    Bump CACHE when you want to guarantee old entries are dropped.
    ============================================================ */
-const CACHE = 'millis-v1';
+/* bumped on the rename so old icons and the old manifest are evicted */
+const CACHE = 'errormargin-v2';
 
 const SHELL = [
   './',
